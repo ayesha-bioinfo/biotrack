@@ -1,0 +1,103 @@
+<nav class="navbar">
+
+    <div class="logo">
+        🧬 BioTrack
+    </div>
+
+    <ul>
+
+        <li><a href="index.html">Dashboard</a></li>
+
+        <li><a href="samples.html">Samples</a></li>
+
+        <li><a href="analytics.html">Analytics</a></li>
+
+        <li><a href="researchers.html">Researchers</a></li>
+
+        <li><a href="about.html">About</a></li>
+
+        <li><a href="contact.html">Contact</a></li>
+
+    </ul>
+
+</nav>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BioTrack</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>BioTrack</h1>
+        <p>Research Sample & Analysis Tracker</p>
+    </header>
+
+    <main>
+
+        <section>
+            <h2>Add New Sample</h2>
+
+            <form id="sampleForm">
+
+                <label>Sample ID</label>
+                <input type="text" id="sampleId" placeholder="e.g. COAD-001">
+
+                <label>Sample Type</label>
+                <select id="sampleType">
+                    <option>Tumor</option>
+                    <option>Normal</option>
+                    <option>Blood</option>
+                </select>
+
+                <label>Analysis Type</label>
+                <select id="analysisType">
+                    <option>RNA-seq</option>
+                    <option>DEG Analysis</option>
+                    <option>Pathway Analysis</option>
+                    <option>Other</option>
+                </select>
+
+                <label>Status</label>
+                <select id="status">
+                    <option>Pending</option>
+                    <option>In Progress</option>
+                    <option>Completed</option>
+                </select>
+
+                <label>Researcher Name</label>
+                <input type="text" id="researcher" placeholder="Enter researcher name">
+
+                <label>Notes</label>
+                <textarea id="notes" placeholder="Optional notes"></textarea>
+
+                <button type="submit">
+                    Add Sample
+                </button>
+
+            </form>
+        </section>
+
+        <section>
+            <h2>Sample List</h2>
+
+            <div id="sampleList">
+                <p>No samples added yet.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
