@@ -15,53 +15,64 @@ let samples = JSON.parse(localStorage.getItem("samples")) || [];
 // Track which sample is being edited
 let editingIndex = null;
 
-// Display samples when page loads
-displaySamples();
 
+// Only run this code if the sample form exists on the page
+if (form && sampleList) {
 
-// Handle form submission
-form.addEventListener("submit", function(event) {
-
-    event.preventDefault();
-
-    const sample = {
-        id: sampleId.value,
-        type: sampleType.value,
-        analysis: analysisType.value,
-        status: status.value,
-        researcher: researcher.value,
-        notes: notes.value
-    };
-
-    // Basic validation
-    if (sample.id.trim() === "") {
-        alert("Please enter a Sample ID.");
-        return;
-    }
-
-    // Update existing sample
-    if (editingIndex !== null) {
-
-        samples[editingIndex] = sample;
-
-        editingIndex = null;
-
-    } else {
-
-        // Add new sample
-        samples.push(sample);
-
-    }
-
-    saveSamples();
-
+    // Display samples when page loads
     displaySamples();
 
-    form.reset();
-});
+
+    // Handle form submission
+    form.addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const sample = {
+            id: sampleId.value.trim(),
+            type: sampleType.value,
+            analysis: analysisType.value,
+            status: status.value,
+            researcher: researcher.value.trim(),
+            notes: notes.value.trim()
+        };
 
 
-// Save array to browser storage
+        // Basic validation
+        if (sample.id === "") {
+
+            alert("Please enter a Sample ID.");
+
+            return;
+        }
+
+
+        // Update existing sample
+        if (editingIndex !== null) {
+
+            samples[editingIndex] = sample;
+
+            editingIndex = null;
+
+        } else {
+
+            // Add new sample
+            samples.push(sample);
+        }
+
+
+        saveSamples();
+
+        displaySamples();
+
+        form.reset();
+
+    });
+
+}
+
+
+// Save samples to localStorage
 function saveSamples() {
 
     localStorage.setItem(
@@ -77,6 +88,7 @@ function displaySamples() {
 
     sampleList.innerHTML = "";
 
+
     if (samples.length === 0) {
 
         sampleList.innerHTML =
@@ -85,12 +97,14 @@ function displaySamples() {
         return;
     }
 
+
     samples.forEach(function(sample, index) {
 
         const newSample =
             document.createElement("div");
 
         newSample.classList.add("sample-card");
+
 
         newSample.innerHTML = `
             <h3>${sample.id}</h3>
@@ -117,7 +131,7 @@ function displaySamples() {
 
             <p>
                 <strong>Notes:</strong>
-                ${sample.notes}
+                ${sample.notes || "No notes"}
             </p>
 
             <button class="edit-btn">
@@ -129,12 +143,14 @@ function displaySamples() {
             </button>
         `;
 
+
         sampleList.appendChild(newSample);
 
 
         // Edit button
         const editButton =
             newSample.querySelector(".edit-btn");
+
 
         editButton.addEventListener(
             "click",
@@ -149,6 +165,7 @@ function displaySamples() {
         // Delete button
         const deleteButton =
             newSample.querySelector(".delete-btn");
+
 
         deleteButton.addEventListener(
             "click",
@@ -182,15 +199,35 @@ function editSample(index) {
     notes.value = sample.notes;
 
     editingIndex = index;
+
+
+    // Scroll back to the form
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
 }
 
 
 // Delete sample
 function deleteSample(index) {
 
+    const confirmDelete =
+        confirm("Are you sure you want to delete this sample?");
+
+
+    if (!confirmDelete) {
+
+        return;
+
+    }
+
+
     samples.splice(index, 1);
 
     saveSamples();
 
     displaySamples();
+
 }
