@@ -2,15 +2,21 @@ import { useEffect, useState } from "react";
 
 function Researchers() {
   const [samples, setSamples] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedSamples =
-      JSON.parse(localStorage.getItem("samples")) || [];
-
-    setSamples(savedSamples);
+    fetch("http://localhost:5000/api/samples")
+      .then((response) => response.json())
+      .then((data) => {
+        setSamples(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Researchers fetch error:", error);
+        setLoading(false);
+      });
   }, []);
 
-  // Group samples by researcher
   const researcherData = {};
 
   samples.forEach((sample) => {
@@ -25,7 +31,7 @@ function Researchers() {
         total: 0,
         pending: 0,
         inProgress: 0,
-        completed: 0,
+        completed: 0
       };
     }
 
@@ -44,14 +50,24 @@ function Researchers() {
     }
   });
 
-  const researchers = Object.entries(researcherData);
+  const researchers =
+    Object.entries(researcherData);
+
+  if (loading) {
+    return (
+      <main>
+        <h1>Researchers</h1>
+        <p>Loading researchers...</p>
+      </main>
+    );
+  }
 
   return (
     <main>
       <h1>Researchers</h1>
 
       <p>
-        View researchers and their assigned samples.
+        Researcher workload based on samples stored in PostgreSQL.
       </p>
 
       <section>
@@ -62,39 +78,48 @@ function Researchers() {
         ) : (
           <div className="researcher-grid">
 
-            {researchers.map(([name, data]) => (
-              <div
-                className="researcher-card"
-                key={name}
-              >
-                <h3>{name}</h3>
+            {researchers.map(
+              ([name, data]) => (
+                <div
+                  className="researcher-card"
+                  key={name}
+                >
+                  <h3>{name}</h3>
 
-                <p>
-                  <strong>Total Samples:</strong>{" "}
-                  {data.total}
-                </p>
+                  <p>
+                    <strong>
+                      Total Samples:
+                    </strong>{" "}
+                    {data.total}
+                  </p>
 
-                <p>
-                  <strong>Pending:</strong>{" "}
-                  {data.pending}
-                </p>
+                  <p>
+                    <strong>
+                      Pending:
+                    </strong>{" "}
+                    {data.pending}
+                  </p>
 
-                <p>
-                  <strong>In Progress:</strong>{" "}
-                  {data.inProgress}
-                </p>
+                  <p>
+                    <strong>
+                      In Progress:
+                    </strong>{" "}
+                    {data.inProgress}
+                  </p>
 
-                <p>
-                  <strong>Completed:</strong>{" "}
-                  {data.completed}
-                </p>
+                  <p>
+                    <strong>
+                      Completed:
+                    </strong>{" "}
+                    {data.completed}
+                  </p>
 
-              </div>
-            ))}
+                </div>
+              )
+            )}
 
           </div>
         )}
-
       </section>
     </main>
   );

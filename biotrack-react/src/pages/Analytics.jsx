@@ -2,12 +2,19 @@ import { useEffect, useState } from "react";
 
 function Analytics() {
   const [samples, setSamples] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedSamples =
-      JSON.parse(localStorage.getItem("samples")) || [];
-
-    setSamples(savedSamples);
+    fetch("http://localhost:5000/api/samples")
+      .then((response) => response.json())
+      .then((data) => {
+        setSamples(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Analytics fetch error:", error);
+        setLoading(false);
+      });
   }, []);
 
   const total = samples.length;
@@ -24,17 +31,24 @@ function Analytics() {
     (sample) => sample.status === "Completed"
   ).length;
 
+  if (loading) {
+    return (
+      <main>
+        <h1>Analytics Dashboard</h1>
+        <p>Loading analytics...</p>
+      </main>
+    );
+  }
+
   return (
     <main>
-
       <h1>Analytics Dashboard</h1>
 
       <p>
-        Overview of sample analysis progress.
+        Overview of sample analysis progress from PostgreSQL.
       </p>
 
       <section>
-
         <h2>Sample Summary</h2>
 
         <div className="analytics-grid">
@@ -60,11 +74,9 @@ function Analytics() {
           </div>
 
         </div>
-
       </section>
 
       <section>
-
         <h2>Status Distribution</h2>
 
         <div className="chart-row">
@@ -120,9 +132,7 @@ function Analytics() {
 
           <span>{completed}</span>
         </div>
-
       </section>
-
     </main>
   );
 }
