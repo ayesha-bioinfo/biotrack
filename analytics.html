@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Analytics - BioTrack</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🧬 BioTrack
+        </div>
+
+        <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="samples.html">Samples</a></li>
+            <li><a href="analytics.html">Analytics</a></li>
+            <li><a href="researchers.html">Researchers</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+    </nav>
+
+    <header>
+
+        <h1>Analytics Dashboard</h1>
+
+        <p>
+            Overview of sample analysis progress
+        </p>
+
+    </header>
+
+    <main>
+
+        <section>
+
+            <h2>Sample Summary</h2>
+
+            <div class="analytics-grid">
+
+                <div class="analytics-card">
+                    <h3>Total Samples</h3>
+                    <p id="totalSamples">0</p>
+                </div>
+
+                <div class="analytics-card">
+                    <h3>Pending</h3>
+                    <p id="pendingSamples">0</p>
+                </div>
+
+                <div class="analytics-card">
+                    <h3>In Progress</h3>
+                    <p id="progressSamples">0</p>
+                </div>
+
+                <div class="analytics-card">
+                    <h3>Completed</h3>
+                    <p id="completedSamples">0</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section>
+
+            <h2>Status Distribution</h2>
+
+            <div class="chart">
+
+                <div class="chart-row">
+                    <span>Pending</span>
+
+                    <div class="bar-container">
+                        <div
+                            id="pendingBar"
+                            class="bar">
+                        </div>
+                    </div>
+
+                    <span id="pendingCount">0</span>
+                </div>
+
+
+                <div class="chart-row">
+                    <span>In Progress</span>
+
+                    <div class="bar-container">
+                        <div
+                            id="progressBar"
+                            class="bar">
+                        </div>
+                    </div>
+
+                    <span id="progressCount">0</span>
+                </div>
+
+
+                <div class="chart-row">
+                    <span>Completed</span>
+
+                    <div class="bar-container">
+                        <div
+                            id="completedBar"
+                            class="bar">
+                        </div>
+                    </div>
+
+                    <span id="completedCount">0</span>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="js/analytics.js"></script>
+
+</body>
+
+</html>

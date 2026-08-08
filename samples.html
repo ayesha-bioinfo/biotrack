@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Samples - BioTrack</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+
+        <div class="logo">
+            🧬 BioTrack
+        </div>
+
+        <ul>
+
+            <li><a href="index.html">Dashboard</a></li>
+
+            <li><a href="samples.html">Samples</a></li>
+
+            <li><a href="analytics.html">Analytics</a></li>
+
+            <li><a href="researchers.html">Researchers</a></li>
+
+            <li><a href="about.html">About</a></li>
+
+            <li><a href="contact.html">Contact</a></li>
+
+        </ul>
+
+    </nav>
+
+
+    <!-- Header -->
+    <header>
+
+        <h1>Sample Management</h1>
+
+        <p>
+            View and manage research samples
+        </p>
+
+    </header>
+
+
+    <main>
+
+        <section>
+
+            <h2>All Samples</h2>
+
+            <!-- Search -->
+            <div class="sample-controls">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search by Sample ID..."
+                >
+
+                <select id="statusFilter">
+
+                    <option value="All">
+                        All Status
+                    </option>
+
+                    <option value="Pending">
+                        Pending
+                    </option>
+
+                    <option value="In Progress">
+                        In Progress
+                    </option>
+
+                    <option value="Completed">
+                        Completed
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Samples Table -->
+            <div class="table-container">
+
+                <table id="samplesTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Sample ID</th>
+
+                            <th>Type</th>
+
+                            <th>Analysis</th>
+
+                            <th>Status</th>
+
+                            <th>Researcher</th>
+
+                            <th>Notes</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="samplesTableBody">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <p id="noSamplesMessage">
+                No samples found.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <script src="js/samples.js"></script>
+
+</body>
+
+</html>

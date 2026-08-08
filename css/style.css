@@ -176,3 +176,284 @@ button:hover{
     color:#ffd166;
 
 }
+/* =========================
+   SAMPLES PAGE
+========================= */
+
+/* Search and filter area */
+.sample-controls {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0 25px 0;
+    align-items: center;
+}
+
+.sample-controls input {
+    width: 280px;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+.sample-controls select {
+    width: 180px;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+    background-color: white;
+}
+
+
+/* Table container */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+
+/* Main table */
+#samplesTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+
+/* Table headings */
+#samplesTable th {
+    background-color: #0f4c81;
+    color: white;
+
+    padding: 14px 18px;
+
+    text-align: left;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    border-bottom: 2px solid #08365c;
+}
+
+
+/* Table cells */
+#samplesTable td {
+    padding: 14px 18px;
+
+    text-align: left;
+
+    border-bottom: 1px solid #dddddd;
+
+    font-size: 15px;
+
+    vertical-align: middle;
+}
+
+
+/* Give columns some breathing room */
+#samplesTable th:nth-child(1),
+#samplesTable td:nth-child(1) {
+    min-width: 120px;
+}
+
+#samplesTable th:nth-child(2),
+#samplesTable td:nth-child(2) {
+    min-width: 100px;
+}
+
+#samplesTable th:nth-child(3),
+#samplesTable td:nth-child(3) {
+    min-width: 150px;
+}
+
+#samplesTable th:nth-child(4),
+#samplesTable td:nth-child(4) {
+    min-width: 120px;
+}
+
+#samplesTable th:nth-child(5),
+#samplesTable td:nth-child(5) {
+    min-width: 140px;
+}
+
+#samplesTable th:nth-child(6),
+#samplesTable td:nth-child(6) {
+    min-width: 180px;
+}
+
+
+/* Highlight row when mouse moves over it */
+#samplesTable tbody tr:hover {
+    background-color: #f2f6f9;
+}
+
+
+/* No samples message */
+#noSamplesMessage {
+    text-align: center;
+    margin-top: 25px;
+    color: #666;
+}
+
+/* =========================
+   ANALYTICS PAGE
+========================= */
+
+.analytics-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 20px;
+
+    margin-top: 25px;
+}
+
+
+.analytics-card {
+    background-color: #f8fbfd;
+
+    padding: 25px;
+
+    text-align: center;
+
+    border-radius: 10px;
+
+    border: 1px solid #dfe8ee;
+}
+
+
+.analytics-card h3 {
+    margin-bottom: 15px;
+
+    font-size: 17px;
+}
+
+
+.analytics-card p {
+    font-size: 32px;
+
+    font-weight: bold;
+
+    color: #0f4c81;
+}
+
+
+/* Status chart */
+
+.chart {
+    margin-top: 25px;
+}
+
+
+.chart-row {
+    display: grid;
+
+    grid-template-columns:
+        120px 1fr 50px;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+
+.bar-container {
+    width: 100%;
+
+    height: 25px;
+
+    background-color: #e6edf2;
+
+    border-radius: 5px;
+
+    overflow: hidden;
+}
+
+
+.bar {
+    height: 100%;
+
+    background-color: #0f4c81;
+
+    width: 0;
+
+    transition: width 0.5s ease;
+}
+
+
+/* Mobile adjustment */
+
+@media (max-width: 800px) {
+
+    .analytics-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+#researchersTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#researchersTable th {
+    background-color: #0f4c81;
+    color: white;
+    padding: 14px 18px;
+    text-align: left;
+}
+
+#researchersTable td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #dddddd;
+}
+
+#researchersTable tbody tr:hover {
+    background-color: #f2f6f9;
+}
+
+#noResearchersMessage {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+}
+
+/* =========================
+   ABOUT PAGE
+========================= */
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.feature-card {
+    background-color: #f8fbfd;
+    padding: 20px;
+    border: 1px solid #dfe8ee;
+    border-radius: 8px;
+}
+
+.feature-card h3 {
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+}

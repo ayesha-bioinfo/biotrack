@@ -2,52 +2,109 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About BioTrack</title>
-<link rel="stylesheet" href="css/style.css">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Contact - BioTrack</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
 
-<nav class="navbar">
-    <a href="index.html">Dashboard</a>
-    <a href="samples.html">Samples</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-</nav>
+    <nav class="navbar">
 
-<header>
-    <h1>About BioTrack</h1>
-    <p>Research Sample & Analysis Tracking System</p>
-</header>
+        <div class="logo">
+            🧬 BioTrack
+        </div>
 
-<main>
+        <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="samples.html">Samples</a></li>
+            <li><a href="analytics.html">Analytics</a></li>
+            <li><a href="researchers.html">Researchers</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
 
-<section>
+    </nav>
 
-    <h2>What is BioTrack?</h2>
 
-    <p>
-        BioTrack is a lightweight web application designed to help
-        researchers manage biological samples and track their analysis
-        progress.
-    </p>
+    <header>
 
-    <h2>Features</h2>
+        <h1>Contact</h1>
 
-    <p>
-        Users can add, view, edit and delete research sample records.
-    </p>
+        <p>
+            Contact the BioTrack team
+        </p>
 
-    <p>
-        Samples can also be categorized by analysis type and processing
-        status.
-    </p>
+    </header>
 
-</section>
 
-</main>
+    <main>
+
+        <section class="contact-section">
+
+            <h2>Send a Message</h2>
+
+            <form id="contactForm">
+
+                <label for="contactName">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    id="contactName"
+                    placeholder="Enter your name"
+                    required
+                >
+
+
+                <label for="contactEmail">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="contactEmail"
+                    placeholder="Enter your email"
+                    required
+                >
+
+
+                <label for="contactMessage">
+                    Message
+                </label>
+
+                <textarea
+                    id="contactMessage"
+                    placeholder="Enter your message"
+                    required
+                ></textarea>
+
+
+                <button type="submit">
+                    Send Message
+                </button>
+
+            </form>
+
+            <p id="contactSuccess"></p>
+
+        </section>
+
+    </main>
+
+
+    <script src="js/contact.js"></script>
 
 </body>
+
 </html>
