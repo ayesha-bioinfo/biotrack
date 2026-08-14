@@ -15,6 +15,7 @@ if (!process.env.DATABASE_URL) {
 
 const app = express();
 const PORT = 5000;
+
 // ===============================
 // MIDDLEWARE
 // ===============================
@@ -27,10 +28,7 @@ app.use(express.json());
 // ===============================
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  connectionString: process.env.DATABASE_URL
 });
 
 // Test database connection
@@ -65,16 +63,25 @@ app.get("/api/samples", async (req, res) => {
   try {
     const result = await pool.query(`
       SELECT
-        id,
-        sample_id,
-        sample_type,
-        analysis_type,
-        status,
-        researcher,
-        notes,
-        created_at
-      FROM samples
-      ORDER BY id ASC
+        s.id,
+        s.sample_id,
+        s.sample_type,
+        s.analysis_type,
+        s.status,
+        s.researcher,
+        s.notes,
+        s.created_at,
+        s.project_id,
+
+        p.project_code,
+        p.project_name
+
+      FROM samples s
+
+      LEFT JOIN projects p
+        ON s.project_id = p.id
+
+      ORDER BY s.id ASC
     `);
 
     const samples = result.rows.map((row) => ({
@@ -85,7 +92,11 @@ app.get("/api/samples", async (req, res) => {
       status: row.status,
       researcher: row.researcher,
       notes: row.notes,
-      createdAt: row.created_at
+      createdAt: row.created_at,
+
+      projectId: row.project_id,
+      projectCode: row.project_code,
+      projectName: row.project_name
     }));
 
     res.json(samples);
@@ -113,7 +124,8 @@ app.post("/api/samples", async (req, res) => {
     analysis,
     status,
     researcher,
-    notes
+    notes,
+    projectId
   } = req.body;
 
   if (!id || !type || !analysis || !status) {
@@ -133,9 +145,12 @@ app.post("/api/samples", async (req, res) => {
         analysis_type,
         status,
         researcher,
-        notes
+        notes,
+        project_id
       )
-      VALUES ($1, $2, $3, $4, $5, $6)
+
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+
       RETURNING *
       `,
       [
@@ -144,7 +159,8 @@ app.post("/api/samples", async (req, res) => {
         analysis,
         status,
         researcher || null,
-        notes || null
+        notes || null,
+        projectId || null
       ]
     );
 
@@ -158,7 +174,8 @@ app.post("/api/samples", async (req, res) => {
       status: row.status,
       researcher: row.researcher,
       notes: row.notes,
-      createdAt: row.created_at
+      createdAt: row.created_at,
+      projectId: row.project_id
     };
 
     res.status(201).json({
@@ -179,6 +196,13 @@ app.post("/api/samples", async (req, res) => {
       });
     }
 
+    if (error.code === "23503") {
+      return res.status(400).json({
+        message:
+          "The selected project does not exist."
+      });
+    }
+
     res.status(500).json({
       message: "Could not add sample"
     });
@@ -190,7 +214,8 @@ app.post("/api/samples", async (req, res) => {
 // ===============================
 
 app.put("/api/samples/:id", async (req, res) => {
-  const originalSampleId = req.params.id;
+  const originalSampleId =
+    req.params.id;
 
   const {
     id,
@@ -198,7 +223,8 @@ app.put("/api/samples/:id", async (req, res) => {
     analysis,
     status,
     researcher,
-    notes
+    notes,
+    projectId
   } = req.body;
 
   if (!id || !type || !analysis || !status) {
@@ -212,14 +238,18 @@ app.put("/api/samples/:id", async (req, res) => {
     const result = await pool.query(
       `
       UPDATE samples
+
       SET
         sample_id = $1,
         sample_type = $2,
         analysis_type = $3,
         status = $4,
         researcher = $5,
-        notes = $6
-      WHERE sample_id = $7
+        notes = $6,
+        project_id = $7
+
+      WHERE sample_id = $8
+
       RETURNING *
       `,
       [
@@ -229,6 +259,7 @@ app.put("/api/samples/:id", async (req, res) => {
         status,
         researcher || null,
         notes || null,
+        projectId || null,
         originalSampleId
       ]
     );
@@ -249,7 +280,8 @@ app.put("/api/samples/:id", async (req, res) => {
       status: row.status,
       researcher: row.researcher,
       notes: row.notes,
-      createdAt: row.created_at
+      createdAt: row.created_at,
+      projectId: row.project_id
     };
 
     res.json({
@@ -270,6 +302,13 @@ app.put("/api/samples/:id", async (req, res) => {
       });
     }
 
+    if (error.code === "23503") {
+      return res.status(400).json({
+        message:
+          "The selected project does not exist."
+      });
+    }
+
     res.status(500).json({
       message: "Could not update sample"
     });
@@ -281,7 +320,8 @@ app.put("/api/samples/:id", async (req, res) => {
 // ===============================
 
 app.delete("/api/samples/:id", async (req, res) => {
-  const sampleId = req.params.id;
+  const sampleId =
+    req.params.id;
 
   try {
     const result = await pool.query(
@@ -309,7 +349,8 @@ app.delete("/api/samples/:id", async (req, res) => {
       status: row.status,
       researcher: row.researcher,
       notes: row.notes,
-      createdAt: row.created_at
+      createdAt: row.created_at,
+      projectId: row.project_id
     };
 
     res.json({
@@ -325,6 +366,58 @@ app.delete("/api/samples/:id", async (req, res) => {
 
     res.status(500).json({
       message: "Could not delete sample"
+    });
+  }
+});
+
+// ===============================
+// GET ALL PROJECTS
+// ===============================
+
+app.get("/api/projects", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT
+        id,
+        project_code,
+        project_name,
+        disease_area,
+        principal_investigator,
+        description,
+        status,
+        start_date,
+        target_samples,
+        created_at
+
+      FROM projects
+
+      ORDER BY id ASC
+    `);
+
+    const projects = result.rows.map((row) => ({
+      id: row.id,
+      projectCode: row.project_code,
+      projectName: row.project_name,
+      diseaseArea: row.disease_area,
+      principalInvestigator:
+        row.principal_investigator,
+      description: row.description,
+      status: row.status,
+      startDate: row.start_date,
+      targetSamples: row.target_samples,
+      createdAt: row.created_at
+    }));
+
+    res.json(projects);
+
+  } catch (error) {
+    console.error(
+      "GET projects error:",
+      error
+    );
+
+    res.status(500).json({
+      message: "Could not retrieve projects"
     });
   }
 });
